@@ -4,7 +4,7 @@ MAINTAINER Luke Bunselmeyer <wmlukeb@gmail.com>
 COPY bootstrap bootstrap
 RUN chmod +x -Rv bootstrap
 
-RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
+#RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -qq update
 RUN apt-get install -y build-essential python-software-properties software-properties-common wget curl git
 
