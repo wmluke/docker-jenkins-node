@@ -1,5 +1,8 @@
 FROM ubuntu:14.04
-MAINTAINER Luke Bunselmeyer <lbunselmeyer@prismondemand.com>
+MAINTAINER Luke Bunselmeyer <wmlukeb@gmail.com>
+
+COPY bootstrap bootstrap
+RUN chmod +x -Rv bootstrap
 
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -qq update
@@ -43,15 +46,7 @@ RUN apt-get -y -q install postgresql-9.3 postgresql-client-9.3 postgresql-contri
 
 USER postgres
 
-RUN /etc/init.d/postgresql start &&\
-    psql --command "ALTER USER postgres with password 'postgres';" &&\
-    psql --command 'CREATE EXTENSION "adminpack";' &&\
-    psql --command 'CREATE EXTENSION "uuid-ossp";' &&\
-    psql --command "CREATE USER jenkins WITH PASSWORD 'jenkins';" &&\
-    createdb -O postgres jenkins_db_1 &&\
-    createdb -O postgres jenkins_db_2 &&\
-    psql --command "GRANT ALL ON DATABASE jenkins_db_1 TO jenkins;"  &&\
-    psql --command "GRANT ALL ON DATABASE jenkins_db_2 TO jenkins;"
+RUN ./bootstrap/postgres.sh
 
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
@@ -64,9 +59,7 @@ RUN echo "jenkins:jenkins" | chpasswd
 # NVM
 RUN mkdir -p /opt/nvm
 RUN git clone https://github.com/creationix/nvm.git /opt/nvm
-COPY setup_nvm.sh setup_nvm.sh
-RUN chmod +x setup_nvm.sh
-RUN ./setup_nvm.sh
+RUN ./bootstrap/nvm.sh
 
 # Adjust perms for jenkins user
 RUN chown -R jenkins /opt/nvm
@@ -86,6 +79,4 @@ RUN gem install compass
 EXPOSE 22
 
 # Startup services when running the container
-COPY init.sh init.sh
-RUN chmod +x init.sh
-ENTRYPOINT ["./init.sh"]
+ENTRYPOINT ["./bootstrap/init.sh"]
