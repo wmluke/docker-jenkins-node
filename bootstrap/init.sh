@@ -1,5 +1,33 @@
-#!/bin/sh
+#!/bin/bash
+
+uid=""
+gid=""
+withPostgres="true"
+
+while [[ $# > 1 ]]
+do
+    key="$1"
+    shift
+
+    case $key in
+    --uid)
+        uid=$1
+        shift
+        ;;
+    --gid)
+        gid=$1
+        shift
+        ;;
+    --with-postgres)
+        withPostgres=$1
+        shift
+        ;;
+    esac
+done
+
+[ -z "$uid" ] || usermod --uid=$uid jenkins
+[ -z "$gid" ] || usermod --gid=$gid jenkins
+[ "$withPostgres" = "false" ] || /etc/init.d/postgresql start
 
 chown -R jenkins:jenkins /home/jenkins
-/etc/init.d/postgresql start
 /usr/sbin/sshd -D

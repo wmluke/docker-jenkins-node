@@ -1,9 +1,6 @@
 FROM ubuntu:14.04
 MAINTAINER Luke Bunselmeyer <wmlukeb@gmail.com>
 
-COPY bootstrap bootstrap
-RUN chmod +x -Rv bootstrap
-
 RUN locale-gen en_US.UTF-8
 RUN dpkg-reconfigure locales
 ENV LANG en_US.UTF-8
@@ -49,6 +46,10 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B97B0AFCAA1A47F044F
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 RUN apt-get update
 RUN apt-get -y -q install postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
+
+# Load scripts
+COPY bootstrap bootstrap
+RUN chmod +x -Rv bootstrap
 
 USER postgres
 
