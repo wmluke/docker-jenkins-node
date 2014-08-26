@@ -9,3 +9,11 @@
  * Ruby 1.9.1
  * Postgres 9.3
  * Open SSH
+
+### Usage
+
+To inject SSH keys into the container, specify a host volume, `[PATH_TO_SSH_FOLDER_ON_HOST]:/home/jenkins/.ssh`:
+
+```
+docker run -d -P -v [PATH_TO_SSH_FOLDER_ON_HOST]:/home/jenkins/.ssh wmluke/jenkins-slave
+```

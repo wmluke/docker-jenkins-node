@@ -1,9 +1,9 @@
 
 install:
-	docker build -t worksite/jenkins-slave .
+	docker build -t wmluke/jenkins-slave .
 
 clean:
 	docker rm -f jenkins-slave
 
 run:
-	docker run -d -P --name jenkins-slave worksite/jenkins-slave
+	docker run -d -p 2223:22 -v /home/docker/.ssh:/home/jenkins/.ssh --name jenkins-slave wmluke/jenkins-slave
