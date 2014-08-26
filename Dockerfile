@@ -48,7 +48,7 @@ USER postgres
 
 RUN ./bootstrap/postgres.sh
 
-VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
+#VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 USER root
 
