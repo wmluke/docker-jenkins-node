@@ -4,6 +4,12 @@ MAINTAINER Luke Bunselmeyer <wmlukeb@gmail.com>
 COPY bootstrap bootstrap
 RUN chmod +x -Rv bootstrap
 
+RUN locale-gen en_US.UTF-8
+RUN dpkg-reconfigure locales
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
 #RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -qq update
 RUN apt-get install -y build-essential python-software-properties software-properties-common wget curl git
@@ -66,9 +72,6 @@ RUN chown -R jenkins /opt/nvm
 RUN touch /home/jenkins/.profile
 RUN echo "source /opt/nvm/nvm.sh" >> /home/jenkins/.profile
 RUN chown jenkins /home/jenkins/.profile
-
-RUN locale-gen en_US.UTF-8
-RUN dpkg-reconfigure locales
 
 # Ruby
 RUN apt-get install ruby1.9.1 ruby1.9.1-dev rubygems1.9.1 -y
