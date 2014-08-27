@@ -6,4 +6,4 @@ clean:
 	docker rm -f jenkins-slave
 
 run:
-	docker run -d -p 2223:22 -v /home/docker/.ssh:/home/jenkins/.ssh --name jenkins-slave wmluke/jenkins-slave
+	docker run -i -t --rm -u jenkins -w /home/jenkins wmluke/jenkins-slave /bin/bash

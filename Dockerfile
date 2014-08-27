@@ -78,6 +78,9 @@ RUN chown jenkins /home/jenkins/.profile
 RUN apt-get install ruby1.9.1 ruby1.9.1-dev rubygems1.9.1 -y
 RUN gem install compass
 
+# Need some fonts
+COPY fonts/sourcesanspro /usr/share/fonts/sourcesanspro
+RUN fc-cache -v /usr/share/fonts/sourcesanspro
 
 # Standard SSH port
 EXPOSE 22
