@@ -9,7 +9,7 @@ ENV LC_ALL en_US.UTF-8
 
 #RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -qq update
-RUN apt-get install -y build-essential python-software-properties software-properties-common wget curl git
+RUN apt-get install -y build-essential python-software-properties software-properties-common wget curl git fontconfig
 
 # SSH server
 RUN apt-get install -y openssh-server
@@ -83,4 +83,4 @@ RUN gem install compass
 EXPOSE 22
 
 # Startup services when running the container
-ENTRYPOINT ["./bootstrap/init.sh"]
+CMD ["./bootstrap/init.sh"]
