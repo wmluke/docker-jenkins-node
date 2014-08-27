@@ -61,6 +61,7 @@ USER root
 
 # Add user jenkins to the image
 RUN adduser --quiet jenkins
+RUN adduser jenkins sudo
 RUN echo "jenkins:jenkins" | chpasswd
 
 # NVM
