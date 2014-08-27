@@ -12,8 +12,28 @@
 
 ### Usage
 
-To inject SSH keys into the container, specify a host volume, `[PATH_TO_SSH_FOLDER_ON_HOST]:/home/jenkins/.ssh`:
-
 ```
-docker run -d -P -v [PATH_TO_SSH_FOLDER_ON_HOST]:/home/jenkins/.ssh wmluke/jenkins-slave
+USAGE: docker run -d -P [VOLUMES] wmluke/jenkins-slave [OPTIONS]
+
+Starts a SSH server accessible by a `jenkins` user with password `jenkins`.
+
+OPTIONS:
+    --uid                   User ID to assign to the container's `jenkins` user
+    --gid                   Group ID to assign to the container's `jenkins` user
+    --password              Sets the password of the `jenkins` user.  Default password is `jenkins`.
+    --with-postgres true    Start postgres server.  Default is `true`.
+    
+VOLUMES:
+    All volumes mounted under `/home/jenkins` will be `chown`ed to the container's `jenkins` user.
+    
+    To inject SSH keys into the container, specify a host volume:
+    
+        -v /home/jenkins/.ssh:/home/jenkins/.ssh
+        
+    Other helpful volumes:
+    
+        -v /var/lib/jenkins/jobs:/home/jenkins/jobs
+        -v /home/jenkins/.m2:/home/jenkins/.m2
+        -v /home/jenkins/.npm:/home/jenkins/.npm
+        -v /home/jenkins/.bower:/home/jenkins/.bower
 ```

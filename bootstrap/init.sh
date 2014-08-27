@@ -3,6 +3,7 @@
 uid=""
 gid=""
 withPostgres="true"
+password=""
 
 while [[ $# > 1 ]]
 do
@@ -18,6 +19,10 @@ do
         gid=$1
         shift
         ;;
+    --password)
+        password=$1
+        shift
+        ;;
     --with-postgres)
         withPostgres=$1
         shift
@@ -27,6 +32,7 @@ done
 
 [ -z "$uid" ] || usermod --uid=$uid jenkins
 [ -z "$gid" ] || usermod --gid=$gid jenkins
+[ -z "$password" ] || echo "jenkins:$password" | chpasswd
 [ "$withPostgres" = "false" ] || /etc/init.d/postgresql start
 
 chown -R jenkins:jenkins /home/jenkins
