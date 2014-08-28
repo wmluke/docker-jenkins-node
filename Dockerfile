@@ -70,6 +70,7 @@ RUN echo "jenkins:jenkins" | chpasswd
 RUN mkdir -p /opt/nvm
 RUN git clone https://github.com/creationix/nvm.git /opt/nvm
 RUN ./bootstrap/nvm.sh
+RUN echo "source /opt/nvm/nvm.sh" >> /root/.profile
 
 # Adjust perms for jenkins user
 RUN chown -R jenkins /opt/nvm
