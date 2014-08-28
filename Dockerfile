@@ -82,6 +82,10 @@ RUN chown jenkins /home/jenkins/.profile
 RUN apt-get install ruby1.9.1 ruby1.9.1-dev rubygems1.9.1 -y
 RUN gem install compass
 
+# Browsers
+RUN apt-get -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
+RUN apt-get -y install firefox chromium-browser
+
 # Need some fonts
 COPY fonts/sourcesanspro /usr/share/fonts/sourcesanspro
 RUN fc-cache -v /usr/share/fonts/sourcesanspro
