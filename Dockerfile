@@ -7,6 +7,8 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+COPY locale /etc/default/locale
+
 #RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -qq update
 RUN apt-get install -y build-essential python-software-properties software-properties-common wget curl git fontconfig
