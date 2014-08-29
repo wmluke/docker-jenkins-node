@@ -83,8 +83,25 @@ RUN apt-get install ruby1.9.1 ruby1.9.1-dev rubygems1.9.1 -y
 RUN gem install compass
 
 # Browsers
-RUN apt-get -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
-RUN apt-get -y install firefox chromium-browser
+RUN apt-get -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic dbus-x11 libfontconfig1-dev
+RUN apt-get -y install firefox chromium-browser ca-certificates
+
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P /tmp/
+RUN dpkg -i /tmp/google-chrome-stable_current_amd64.deb || true
+RUN apt-get install -fy
+
+# Shim chrome to disable sandbox
+# See https://github.com/docker/docker/issues/1079
+RUN mv /usr/bin/google-chrome /usr/bin/google-chrome.orig
+COPY shims/google-chrome /usr/bin/google-chrome
+RUN chmod +x /usr/bin/google-chrome
+
+# xvfb
+COPY init.d/xvfb /etc/init.d/xvfb
+RUN chmod +x /etc/init.d/xvfb
+
+ENV DISPLAY :10
+ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu/
 
 # Need some fonts
 COPY fonts/sourcesanspro /usr/share/fonts/sourcesanspro

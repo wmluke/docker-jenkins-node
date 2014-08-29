@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Shim chrome to disable sandbox
+# See https://github.com/docker/docker/issues/1079
+/usr/bin/google-chrome.orig --no-sandbox $@
