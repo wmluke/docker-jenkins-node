@@ -1,7 +1,14 @@
 #!/bin/bash
 XVFB=/usr/bin/Xvfb
-XVFBARGS=":10 -screen 0 1024x768x24 -ac +extension GLX +extension RANDR +render -noreset"
 PIDFILE=/var/run/xvfb.pid
+
+SCREEN_SIZE='1024x768x24'
+if [ -n "$XVFB_SCREEN_SIZE" ]; then
+    SCREEN_SIZE="$XVFB_SCREEN_SIZE"
+fi
+
+XVFBARGS="$DISPLAY -screen 0 $SCREEN_SIZE -ac +extension GLX +extension RANDR +render -noreset"
+
 case "$1" in
   start)
     echo -n "Starting virtual X frame buffer: Xvfb"

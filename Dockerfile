@@ -80,13 +80,16 @@ RUN chown jenkins /home/jenkins/.profile
 
 # Ruby via RVM
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-RUN \curl -sSL https://get.rvm.io | bash -s stable --ruby --gems=compass,bundle
+RUN \curl -sSL https://get.rvm.io | bash -s stable
+RUN ./bootstrap/rvm.sh
+#RUN . /usr/local/rvm/scripts/rvm && rvm install 2.1.2
 RUN echo "source /usr/local/rvm/scripts/rvm" >> /root/.profile
 RUN echo "source /usr/local/rvm/scripts/rvm" >> /home/jenkins/.profile
 
 # Browsers
 RUN apt-get -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic dbus-x11 libfontconfig1-dev
 RUN apt-get -y install firefox chromium-browser ca-certificates
+COPY firefox /root/.mozilla/firefox
 
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P /tmp/
 RUN dpkg -i /tmp/google-chrome-stable_current_amd64.deb || true
