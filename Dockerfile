@@ -13,11 +13,6 @@ COPY locale /etc/default/locale
 RUN apt-get -qq update
 RUN apt-get install -y build-essential python-software-properties software-properties-common wget curl git fontconfig
 
-# SSH server
-RUN apt-get install -y openssh-server
-RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
-RUN mkdir -p /var/run/sshd
-
 # Java 1.7
 RUN wget --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz
 RUN mkdir -p /opt/jdk
@@ -56,8 +51,6 @@ RUN chmod +x -Rv bootstrap
 USER postgres
 
 RUN ./bootstrap/postgres.sh
-
-#VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 USER root
 
@@ -107,13 +100,8 @@ RUN chmod +x /etc/init.d/xvfb
 
 ENV DISPLAY :10
 ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu/
+ENV XVFB_SCREEN_SIZE 1024x768x24
 
 # Need some fonts
 COPY fonts/sourcesanspro /usr/share/fonts/sourcesanspro
 RUN fc-cache -v /usr/share/fonts/sourcesanspro
-
-# Standard SSH port
-EXPOSE 22
-
-# Startup services when running the container
-CMD ["./bootstrap/init.sh"]
