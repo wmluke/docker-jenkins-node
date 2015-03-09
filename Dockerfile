@@ -19,9 +19,9 @@ RUN mkdir -p /opt/jdk
 RUN tar -zxf jdk-7u67-linux-x64.tar.gz -C /opt/jdk
 
 # Java 1.8
-RUN wget --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u11-b12/jdk-8u11-linux-x64.tar.gz
+RUN wget --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u40-b25/jdk-8u40-linux-x64.tar.gz
 RUN mkdir -p /opt/jdk
-RUN tar -zxf jdk-8u11-linux-x64.tar.gz -C /opt/jdk
+RUN tar -zxf jdk-8u40-linux-x64.tar.gz -C /opt/jdk
 
 # Maven 3.0.5
 RUN wget http://apache.petsads.us/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
@@ -30,12 +30,12 @@ RUN tar -zxf apache-maven-3.0.5-bin.tar.gz -C /opt/maven
 RUN ln -s /opt/maven/apache-maven-3.0.5/bin/mvn /usr/bin
 
 # Set the default java version to 1.7
-RUN update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.7.0_67/bin/java 100
-RUN update-alternatives --install /usr/bin/javac javac /opt/jdk/jdk1.7.0_67/bin/javac 100
+RUN update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_40/bin/java 100
+RUN update-alternatives --install /usr/bin/javac javac /opt/jdk/jdk1.8.0_40/bin/javac 100
 
 # Set Java and Maven env variables
 ENV M2_HOME /opt/maven/apache-maven-3.0.5
-ENV JAVA_HOME /opt/jdk/jdk1.7.0_67
+ENV JAVA_HOME /opt/jdk/jdk1.8.0_40
 ENV JAVA_OPTS -Xmx2G -Xms2G -XX:PermSize=256M -XX:MaxPermSize=256m
 
 # Postgresql 9.3
