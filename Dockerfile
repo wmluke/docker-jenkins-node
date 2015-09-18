@@ -24,9 +24,8 @@ RUN mkdir -p /opt/jdk
 RUN tar -zxf jdk-8u40-linux-x64.tar.gz -C /opt/jdk
 
 # Maven 3.0.5
-RUN wget http://apache.petsads.us/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
-RUN mkdir -p /opt/maven
-RUN tar -zxf apache-maven-3.0.5-bin.tar.gz -C /opt/maven
+COPY maven /opt/maven
+RUN tar -zxf /opt/maven/apache-maven-3.0.5-bin.tar.gz -C /opt/maven
 RUN ln -s /opt/maven/apache-maven-3.0.5/bin/mvn /usr/bin
 
 # Set the default java version to 1.7
@@ -45,7 +44,7 @@ RUN apt-get update
 RUN apt-get -y -q install postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
 
 # Workaround for AUFS perms issue: https://github.com/docker/docker/issues/783#issuecomment-56013588
-RUN mkdir /etc/ssl/private-copy; mv /etc/ssl/private/* /etc/ssl/private-copy/; rm -r /etc/ssl/private; mv /etc/ssl/private-copy /etc/ssl/private; chmod -R 0700 /etc/ssl/private; chown -R postgres /etc/ssl/private
+# RUN mkdir /etc/ssl/private-copy; mv /etc/ssl/private/* /etc/ssl/private-copy/; rm -r /etc/ssl/private; mv /etc/ssl/private-copy /etc/ssl/private; chmod -R 0700 /etc/ssl/private; chown -R postgres /etc/ssl/private
 
 # Load scripts
 COPY bootstrap bootstrap
