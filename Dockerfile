@@ -1,7 +1,9 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Luke Bunselmeyer <wmlukeb@gmail.com>
 
-RUN locale-gen en_US.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true
+
+RUN locale-gen --purge en_US.UTF-8
 RUN dpkg-reconfigure locales
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
@@ -11,37 +13,26 @@ COPY locale /etc/default/locale
 
 #RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN apt-get -qq update
-RUN apt-get install -y build-essential python-software-properties software-properties-common wget curl git fontconfig rpm
-
-# Java 1.7
-RUN wget --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.tar.gz
-RUN mkdir -p /opt/jdk
-RUN tar -zxf jdk-7u67-linux-x64.tar.gz -C /opt/jdk
+RUN apt-get -y -q install build-essential python-software-properties software-properties-common wget curl git fontconfig rpm
 
 # Java 1.8
-RUN wget --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u40-b25/jdk-8u40-linux-x64.tar.gz
-RUN mkdir -p /opt/jdk
-RUN tar -zxf jdk-8u40-linux-x64.tar.gz -C /opt/jdk
+RUN apt-get -y -q install openjdk-8-jdk
 
 # Maven 3.0.5
 COPY maven /opt/maven
 RUN tar -zxf /opt/maven/apache-maven-3.0.5-bin.tar.gz -C /opt/maven
 RUN ln -s /opt/maven/apache-maven-3.0.5/bin/mvn /usr/bin
 
-# Set the default java version to 1.7
-RUN update-alternatives --install /usr/bin/java java /opt/jdk/jdk1.8.0_40/bin/java 100
-RUN update-alternatives --install /usr/bin/javac javac /opt/jdk/jdk1.8.0_40/bin/javac 100
-
 # Set Java and Maven env variables
 ENV M2_HOME /opt/maven/apache-maven-3.0.5
-ENV JAVA_HOME /opt/jdk/jdk1.8.0_40
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV JAVA_OPTS -Xmx2G -Xms2G -XX:PermSize=256M -XX:MaxPermSize=256m
 
-# Postgresql 9.3
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-RUN apt-get update
-RUN apt-get -y -q install postgresql-9.3 postgresql-client-9.3 postgresql-contrib-9.3
+# Postgresql 9.4
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN apt-get -qq update
+RUN apt-get -y -q install postgresql-9.4 postgresql-client-9.4 postgresql-contrib-9.4
 
 # Workaround for AUFS perms issue: https://github.com/docker/docker/issues/783#issuecomment-56013588
 # RUN mkdir /etc/ssl/private-copy; mv /etc/ssl/private/* /etc/ssl/private-copy/; rm -r /etc/ssl/private; mv /etc/ssl/private-copy /etc/ssl/private; chmod -R 0700 /etc/ssl/private; chown -R postgres /etc/ssl/private
@@ -82,8 +73,8 @@ RUN echo "source /usr/local/rvm/scripts/rvm" >> /root/.profile
 RUN echo "source /usr/local/rvm/scripts/rvm" >> /home/jenkins/.profile
 
 # Browsers
-RUN apt-get -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic dbus-x11 libfontconfig1-dev
-RUN apt-get -y install firefox chromium-browser ca-certificates
+RUN apt-get -y -q install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic dbus-x11 libfontconfig1-dev
+RUN apt-get -y -q install firefox chromium-browser ca-certificates
 COPY firefox /root/.mozilla/firefox
 
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P /tmp/
