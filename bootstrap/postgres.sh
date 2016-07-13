@@ -1,6 +1,7 @@
 #!/bin/bash
 
 /etc/init.d/postgresql start
+sleep 5
 psql --command "ALTER USER postgres with password 'postgres';"
 psql --command 'CREATE EXTENSION "adminpack";'
 psql --command 'CREATE EXTENSION "uuid-ossp";'
