@@ -3,12 +3,13 @@
  A docker image to be used for Jenkins testing
  
  This image provides
+ * Ubuntu:16.04
  * Languages
-    * JDK 1.7, 1.8 / Maven 3.0.5
-    * Node 0.10.24 via nvm
+    * JDK 1.8 / Maven 3.0.5
+    * Node 4.4.3 via nvm
     * Ruby 2.1.2 via RVM
  * Services
-    * Postgres 9.3
+    * Postgres 9.4
     * Xvfb
  * Browsers
      * Firefox
