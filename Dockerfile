@@ -81,8 +81,8 @@ COPY firefox/profile /root/.mozilla/firefox
 RUN tar -jxvf /opt/firefox-36.0.4.tar.bz2 -C /opt
 ENV PATH /opt/firefox:$PATH
 
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -P /tmp/
-RUN dpkg -i /tmp/google-chrome-stable_current_amd64.deb || true
+COPY chrome/google-chrome-stable_current_amd64.deb /opt/google-chrome-stable_current_amd64.deb
+RUN dpkg -i /opt/google-chrome-stable_current_amd64.deb || true
 RUN apt-get install -fy
 
 # Shim chrome to disable sandbox
