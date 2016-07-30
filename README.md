@@ -5,16 +5,22 @@
  This image provides
  * Ubuntu:16.04
  * Languages
-    * JDK 1.8 / Maven 3.0.5
+    * JDK 1.8.0_91 / Maven 3.0.5
     * Node 4.4.3 via nvm
     * Ruby 2.1.2 via RVM
+ * Tools
+    * bower 1.7.9
+    * grunt 1.2.0
+    * phantomjs 2.1.1
+    * compass 1.0.3
+    * gem 2.4.8
  * Services
-    * Postgres 9.4
+    * Postgres 9.4.8
     * Xvfb
  * Browsers
-     * Firefox
-     * Chrome
-     * Chromium
+     * Firefox 36.0.4
+     * Chromium 51.0.2704.79
+     * Chrome 52.0.2743.82
 
 ### Environment Variables
 

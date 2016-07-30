@@ -102,3 +102,7 @@ ENV XVFB_SCREEN_SIZE 1024x768x24
 # Need some fonts
 COPY fonts/sourcesanspro /usr/share/fonts/sourcesanspro
 RUN fc-cache -v /usr/share/fonts/sourcesanspro
+
+COPY versions.sh /tmp/versions.sh
+RUN chmod +x /tmp/versions.sh
+RUN /tmp/versions.sh
