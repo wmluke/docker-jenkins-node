@@ -103,6 +103,11 @@ ENV XVFB_SCREEN_SIZE 1024x768x24
 COPY fonts/sourcesanspro /usr/share/fonts/sourcesanspro
 RUN fc-cache -v /usr/share/fonts/sourcesanspro
 
+## Install yarn
+RUN apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
+RUN echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install yarn -y
+
 COPY versions.sh /tmp/versions.sh
 RUN chmod +x /tmp/versions.sh
 RUN /tmp/versions.sh
