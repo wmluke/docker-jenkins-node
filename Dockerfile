@@ -76,9 +76,9 @@ RUN echo "source /usr/local/rvm/scripts/rvm" >> /home/jenkins/.profile
 RUN apt-get -y -q install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic dbus-x11 libfontconfig1-dev
 RUN apt-get -y -q install chromium-browser ca-certificates
 
-COPY firefox/firefox-36.0.4.tar.bz2 /opt/firefox-36.0.4.tar.bz2
+COPY firefox/firefox-46.0.tar.bz2 /opt/firefox-46.0.tar.bz2
 COPY firefox/profile /root/.mozilla/firefox
-RUN tar -jxvf /opt/firefox-36.0.4.tar.bz2 -C /opt
+RUN tar -jxvf /opt/firefox-46.0.tar.bz2 -C /opt
 ENV PATH /opt/firefox:$PATH
 
 COPY chrome/google-chrome-stable_current_amd64.deb /opt/google-chrome-stable_current_amd64.deb
