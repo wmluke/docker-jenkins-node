@@ -1,4 +1,4 @@
-# Jenkins-slave
+# Jenkins-node
 
  A docker image to be used for Jenkins testing
 
@@ -35,13 +35,13 @@
 #### MVN Usage
 
 ```
-$ docker run -i --rm --name $BUILD_TAG -v $WORKSPACE:$WORKSPACE --workdir="$WORKSPACE" wmluke/jenkins-slave /bin/bash -c "/etc/init.d/postgresql start && mvn clean install"
+$ docker run -i --rm --name $BUILD_TAG -v $WORKSPACE:$WORKSPACE --workdir="$WORKSPACE" wmluke/jenkins-node /bin/bash -c "/etc/init.d/postgresql start && mvn clean install"
 ```
 
 #### Cucumber Usage
 
 ```
-$ docker run -i --rm --name $BUILD_TAG -v $WORKSPACE:$WORKSPACE --workdir="$WORKSPACE" --env XVFB_SCREEN_SIZE=1920x1080x24 wmluke/jenkins-slave /bin/bash -c "/etc/init.d/xvfb start && bundle install && cucumber features/xyz.feature"
+$ docker run -i --rm --name $BUILD_TAG -v $WORKSPACE:$WORKSPACE --workdir="$WORKSPACE" --env XVFB_SCREEN_SIZE=1920x1080x24 wmluke/jenkins-node /bin/bash -c "/etc/init.d/xvfb start && bundle install && cucumber features/xyz.feature"
 ```
 
 #### Utils
